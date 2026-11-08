@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="de-AT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#17141c">
+  <meta name="description" content="Wenn die Beleidigung ‚du Hurensohn‘ nimma ausreicht: Der österreichische Schimpfwortgenerator mit Bedeutung.">
+  <title>NIMMA. – Wenn „du Hurensohn“ nimma ausreicht</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #17141c;
+      --surface: #27222e;
+      --surface-2: #332b3a;
+      --text: #fff5e9;
+      --muted: #bdb1bd;
+      --hot: #ff705f;
+      --acid: #dcff83;
+      --line: #574651;
+      --black: #17141c;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 92% 17%, rgba(255,112,95,.13), transparent 32%),
+        radial-gradient(circle at 8% 76%, rgba(220,255,131,.08), transparent 34%),
+        var(--bg);
+      overflow-x: hidden;
+    }
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible { outline: 3px solid var(--acid); outline-offset: 4px; }
+    button:disabled { cursor: wait; opacity: .7; }
+    .container { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      min-height: 90px; gap: 16px; border-bottom: 1px solid var(--line);
+    }
+    .logo { display: inline-flex; align-items: center; gap: 11px; color: var(--text); text-decoration: none; }
+    .logo-icon {
+      width: 39px; height: 39px; border-radius: 12px 12px 12px 3px;
+      background: var(--hot); color: var(--black); font-size: 23px;
+      display: grid; place-items: center; font-weight: 950; transform: rotate(-8deg);
+      box-shadow: 5px 5px 0 rgba(255,112,95,.18);
+    }
+    .logo-name { font-size: 27px; font-weight: 950; letter-spacing: -.075em; }
+    .nav-note { font-size: 12px; font-weight: 800; letter-spacing: .16em; color: var(--acid); text-transform: uppercase; }
+    main { padding-top: clamp(37px, 6vw, 85px); }
+    .hero { position: relative; }
+    .overline { color: var(--acid); font-size: 12px; font-weight: 900; letter-spacing: .18em; text-transform: uppercase; }
+    .overline::before { content: "✳"; display: inline-block; font-size: 18px; vertical-align: -2px; margin-right: 9px; }
+    h1 {
+      max-width: 1080px; font-size: clamp(43px, 7.9vw, 104px);
+      line-height: .99; letter-spacing: -.082em; font-weight: 950;
+      margin: 19px 0 25px; text-wrap: balance;
+    }
+    .highlight { color: var(--hot); white-space: nowrap; }
+    .punchline { display: inline-block; position: relative; color: var(--acid); font-style: normal; }
+    .punchline::after {
+      content: ""; height: 8px; position: absolute; left: 1%; right: 1%; bottom: -7px;
+      background: var(--hot); transform: rotate(-1.5deg); border-radius: 100%;
+    }
+    .hero-bottom { display: flex; gap: 24px; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+    .intro { font-size: clamp(16px, 1.8vw, 20px); color: var(--muted); line-height: 1.6; max-width: 640px; margin: 0; }
+    .sticker {
+      flex: 0 0 auto; padding: 15px 20px; border: 2px solid var(--hot); border-radius: 10px;
+      font-size: 13px; font-weight: 950; letter-spacing: .07em; text-align: center;
+      color: var(--hot); line-height: 1.3; text-transform: uppercase; transform: rotate(7deg);
+    }
+    .layout { display: grid; grid-template-columns: minmax(0, 1fr) 318px; gap: 18px; }
+    .result {
+      min-width: 0; min-height: 420px; padding: clamp(24px, 4vw, 40px);
+      position: relative; overflow: hidden; isolation: isolate;
+      border-radius: 23px; border: 1px solid #584754;
+      background: linear-gradient(140deg, #302634, #231e2b 75%);
+      box-shadow: 0 24px 70px rgba(0,0,0,.22);
+      display: flex; flex-direction: column;
+    }
+    .result::after {
+      content: "✳"; font-size: 300px; line-height: .8; font-weight: 900;
+      color: rgba(255,112,95,.055); position: absolute; right: -70px; bottom: 40px;
+      z-index: -1; transform: rotate(-20deg); pointer-events: none;
+    }
+    .result-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .eyebrow { color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .15em; text-transform: uppercase; }
+    .pill { border-radius: 999px; padding: 7px 11px; color: var(--acid); border: 1px solid #657044; font-size: 11px; font-weight: 800; white-space: nowrap; }
+    .content { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 36px 0 30px; }
+    .word {
+      margin: 0 0 23px; font-size: clamp(40px, 6vw, 78px); line-height: 1.04;
+      letter-spacing: -.07em; color: var(--acid); overflow-wrap: anywhere;
+      font-weight: 950; text-wrap: balance;
+    }
+    .meaning-heading { margin: 0 0 9px; color: var(--hot); font-size: 12px; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
+    .meaning { color: #d0c3cd; font-size: clamp(16px, 2vw, 20px); line-height: 1.55; margin: 0; max-width: 630px; }
+    .result-bottom { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding-top: 19px; border-top: 1px solid var(--line); }
+    .count { color: var(--muted); font-size: 12px; }
+    .count strong { font-size: 16px; color: var(--text); font-variant-numeric: tabular-nums; }
+    .copy {
+      padding: 11px 14px; border: 1px solid #6f5b6c; border-radius: 10px;
+      color: var(--text); font-size: 13px; font-weight: 800; background: transparent;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+      transition: background .18s;
+    }
+    .copy:hover:not(:disabled) { background: var(--surface-2); }
+    .copy:disabled { opacity: .45; cursor: not-allowed; }
+    .copy svg, .generate svg { width: 19px; height: 19px; }
+    .sidebar { display: flex; flex-direction: column; gap: 18px; }
+    .action {
+      min-height: 283px; padding: 25px; border-radius: 23px; background: var(--hot); color: var(--black);
+      display: flex; flex-direction: column; justify-content: space-between;
+      box-shadow: 8px 8px 0 rgba(255,112,95,.09);
+    }
+    .action-symbol { font-size: 48px; line-height: 1; display: inline-block; transform: rotate(-12deg); }
+    .action h2 { font-size: 32px; font-weight: 950; letter-spacing: -.06em; line-height: 1.04; margin: 15px 0 9px; }
+    .action p { font-size: 14px; line-height: 1.5; opacity: .82; margin: 0 0 23px; }
+    .generate {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 16px 10px; border: 0; border-radius: 11px;
+      color: var(--text); background: var(--black); font-size: 14px; font-weight: 950;
+      letter-spacing: .025em; cursor: pointer; transition: transform .16s, background .16s;
+    }
+    .generate:hover:not(:disabled) { transform: translateY(-2px); background: #36303a; }
+    .hint { padding: 22px; border: 1px solid var(--line); border-radius: 17px; background: rgba(255,255,255,.025); }
+    .hint h3 { font-size: 14px; margin: 0 0 8px; }
+    .hint p { color: var(--muted); font-size: 13px; line-height: 1.55; margin: 0; }
+    kbd { padding: 2px 6px; border: 1px solid #716273; border-radius: 5px; color: var(--text); font-family: inherit; font-size: 12px; }
+    .message { min-height: 27px; padding-top: 12px; color: #ffb5a7; font-size: 13px; }
+    .message:empty { visibility: hidden; }
+    .result.reveal .content { animation: reveal .34s ease both; }
+    @keyframes reveal { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    footer { border-top: 1px solid var(--line); padding: 25px 0 29px; margin-top: 40px; display: flex; gap: 10px 18px; flex-wrap: wrap; align-items: center; justify-content: space-between; color: #988996; font-size: 12px; }
+    footer strong { color: var(--hot); }
+    @media (max-width: 790px) {
+      .container { width: min(610px, calc(100% - 32px)); }
+      .topbar { min-height: 78px; }
+      .nav-note { display: none; }
+      h1 { font-size: clamp(45px, 9vw, 70px); }
+      .hero-bottom { align-items: flex-start; }
+      .sticker { display: none; }
+      .layout { grid-template-columns: minmax(0, 1fr); }
+      .result { min-height: 350px; }
+      .action { min-height: unset; }
+      .action-symbol { display: none; }
+      .action h2 { margin-top: 0; }
+      .action p { margin-bottom: 17px; }
+    }
+    @media (max-width: 450px) {
+      main { padding-top: 35px; }
+      h1 { font-size: clamp(40px, 10.5vw, 52px); }
+      .highlight { white-space: normal; }
+      .punchline::after { height: 5px; }
+      .hero-bottom { margin-bottom: 27px; }
+      .result { padding: 23px 20px; }
+      .word { font-size: clamp(38px, 11vw, 56px); }
+      .pill { font-size: 9px; padding: 6px 8px; }
+      .count { font-size: 11px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="topbar">
+      <a href="/" class="logo" aria-label="NIMMA – Startseite">
+        <span class="logo-icon" aria-hidden="true">!</span>
+        <span class="logo-name">NIMMA.</span>
+      </a>
+      <span class="nav-note">Österreichische Schimpfkunst seit jetzt</span>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="pageTitle">
+        <div class="overline">Für Fortgeschrittene im Grantigsein</div>
+        <h1 id="pageTitle">Wenn die Beleidigung <span class="highlight">„du Hurensohn“</span> nimma <em class="punchline">ausreicht.</em></h1>
+        <div class="hero-bottom">
+          <p class="intro">Immer derselbe Schas? Zeit für a Upgrade. Hier gibt's österreichische Schimpfwörter mit ordentlich Schmäh – und die Bedeutung gleich dazu.</p>
+          <div class="sticker" aria-hidden="true">100 % Dialekt<br>0 % fad</div>
+        </div>
+      </section>
+
+      <div class="layout">
+        <section class="result" id="insultCard" aria-label="Zufällig ausgewähltes Schimpfwort">
+          <div class="result-top">
+            <span class="eyebrow">Dein nächstes Upgrade</span>
+            <span class="pill">🇦🇹 AUS ÖSTERREICH</span>
+          </div>
+          <div class="content" aria-live="polite" aria-atomic="true">
+            <h2 class="word" id="insultWord">Oida, bereit?</h2>
+            <p class="meaning-heading">Für Nicht-Eingeweihte</p>
+            <p class="meaning" id="insultMeaning">Drück auf den Button und gönn deinem Wortschatz a bissl mehr Kreativität.</p>
+          </div>
+          <div class="result-bottom">
+            <span class="count"><strong id="insultCount">00</strong> Schimpfwörter serviert</span>
+            <button class="copy" id="copyButton" type="button" disabled aria-label="Schimpfwort und Bedeutung kopieren">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+              <span id="copyLabel">Kopieren</span>
+            </button>
+          </div>
+        </section>
+
+        <aside class="sidebar">
+          <section class="action">
+            <div>
+              <span class="action-symbol" aria-hidden="true">⚡</span>
+              <h2>Standard war gestern.</h2>
+              <p>Ein Klick. Ein neues Wort. Mehr Schmäh pro Sekunde.</p>
+            </div>
+            <button class="generate" id="generateButton" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7v5h-5"/><path d="M4 17v-5h5"/><path d="M5.7 9a7 7 0 0 1 12-2L20 12M4 12l2.3 5a7 7 0 0 0 12-2"/></svg>
+              <span id="generateLabel">GIB MA WAS BESSERES</span>
+            </button>
+          </section>
+          <section class="hint">
+            <h3>✳ No a Tipp</h3>
+            <p>Mit der <kbd>Leertaste</kbd> gibt's das nächste Schimpfwort. Zum Lachen gedacht, ned zum Fertigmachen.</p>
+          </section>
+        </aside>
+      </div>
+      <div class="message" id="message" role="status" aria-live="polite"></div>
+    </main>
+
+    <footer>
+      <span><strong>NIMMA.</strong> – Wenn dir der Standardspruch z' fad wird.</span>
+      <span>Mit ♥, Grant und österreichischem Schmäh.</span>
+    </footer>
+  </div>
+
+  <script>
+    const wordElement = document.getElementById('insultWord');
+    const meaningElement = document.getElementById('insultMeaning');
+    const countElement = document.getElementById('insultCount');
+    const messageElement = document.getElementById('message');
+    const generateButton = document.getElementById('generateButton');
+    const generateLabel = document.getElementById('generateLabel');
+    const copyButton = document.getElementById('copyButton');
+    const copyLabel = document.getElementById('copyLabel');
+    const card = document.getElementById('insultCard');
+
+    let currentInsult = null;
+    let count = 0;
+    let loading = false;
+
+    async function generateInsult() {
+      if (loading) return;
+      loading = true;
+      generateButton.disabled = true;
+      generateLabel.textContent = "WIRD G'LADEN …";
+      messageElement.textContent = '';
+
+      try {
+        const response = await fetch('./InsultsLibrary.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const insults = await response.json();
+        if (!Array.isArray(insults) || insults.length === 0) throw new Error('Schimpfwortliste ist leer.');
+        const data = insults[Math.floor(Math.random() * insults.length)];
+        const word = data.Schimpfwort ?? data.schimpfwort;
+        const meaning = data.bedeutung ?? data.Bedeutung;
+        if (typeof word !== 'string' || !word.trim()) {
+          throw new Error('Die API liefert kein gültiges Schimpfwort.');
+        }
+
+        currentInsult = { word, meaning: typeof meaning === 'string' ? meaning : 'Keine Bedeutung verfügbar.' };
+        wordElement.textContent = currentInsult.word;
+        meaningElement.textContent = currentInsult.meaning;
+        count++;
+        countElement.textContent = String(count).padStart(2, '0');
+        copyButton.disabled = false;
+        copyLabel.textContent = 'Kopieren';
+
+        card.classList.remove('reveal');
+        void card.offsetWidth;
+        card.classList.add('reveal');
+      } catch (error) {
+        console.error('Fehler beim Laden des Schimpfworts:', error);
+        messageElement.textContent = 'Des war nix! Ist die InsultsLibrary.json neben der index.html vorhanden?';
+      } finally {
+        loading = false;
+        generateButton.disabled = false;
+        generateLabel.textContent = 'NOCH EINS, OIDA!';
+      }
+    }
+
+    async function copyInsult() {
+      if (!currentInsult) return;
+      const text = `${currentInsult.word} – ${currentInsult.meaning}`;
+      try {
+        if (!navigator.clipboard?.writeText) throw new Error('Clipboard not available');
+        await navigator.clipboard.writeText(text);
+        copyLabel.textContent = 'Kopiert!';
+        messageElement.textContent = '';
+      } catch (error) {
+        messageElement.textContent = 'Kopieren ging ned. Versuch die Seite über localhost oder HTTPS zu öffnen.';
+      }
+    }
+
+    generateButton.addEventListener('click', generateInsult);
+    copyButton.addEventListener('click', copyInsult);
+    document.addEventListener('keydown', (event) => {
+      const active = document.activeElement;
+      const isTyping = active && (['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'].includes(active.tagName) || active.isContentEditable);
+      if (event.code === 'Space' && !event.repeat && !isTyping) {
+        event.preventDefault();
+        generateInsult();
+      }
+    });
+  </script>
+</body>
+</html>
